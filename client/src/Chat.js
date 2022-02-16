@@ -11,7 +11,8 @@ const Chat=({socket,username,room})=>{
                  room:room,
                  author:username,
                  message:currmessage,
-                 time:new Date(Date.now()).getHours()+":"+new Date(Date.now()).getMinutes()
+                //  time:new Date(Date.now()).getHours()+":"+new Date(Date.now()).getMinutes()+ new Date(Date.now()).getTimezoneOffset()
+                time:new Date().toLocaleString('en-US', { hour: 'numeric',minute:'numeric', hour12: true })
              };
              await socket.emit("send-data",messageData);
              setMessagelist((list)=>[...list,messageData]);
@@ -36,14 +37,14 @@ const Chat=({socket,username,room})=>{
         <ScrollToBottom  className="message-container">
         
             {messagelist.map((messageContent)=>{
-                return <div className="message" id={username===messageContent.author?"you":"other"}> 
+                return <div className="message" id={username===messageContent.author?"other":"you"}> 
                 <div>
                  <div className="message-content">
                      <p>{messageContent.message}</p>
                  </div> 
                  <div className="message-meta">
-                     <p id="time">{messageContent.time}</p>
                      <p id="author">{messageContent.author}</p>
+                     <p id="time">{messageContent.time}</p>
                  </div> 
                 </div>
                 

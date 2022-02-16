@@ -19,7 +19,7 @@ const App =()=>{
     return <div className="App">
     {!showchat?
     <div className="joinChatContainer">
-    <h3>Join A chat</h3>
+    <h3> Join A chat</h3>
     <input
      onChange={(event)=>{setUsername(event.target.value)}} 
      type="text" placeholder="Enter Your Name" />
