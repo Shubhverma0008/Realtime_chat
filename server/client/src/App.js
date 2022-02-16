@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import io from 'socket.io-client'  //use to establish connection
 import Chat from "./Chat";
 import Ap from './App.css'
-const socket=io.connect("http://localhost:3001");
+const socket=io.connect("https://shubhverma.herokuapp.com/");
 
 const App =()=>{
     const [username,setUsername]=useState("");

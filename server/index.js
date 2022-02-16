@@ -1,20 +1,21 @@
+const dotenv=require('dotenv')
+dotenv.config();
 const express=require('express')
 const app=express();
 const http=require('http')// to build with socket.io
 const cors=require('cors') // very important for socket
-const {Server}=require('socket.io'); //Server is exist in socket io librar;
-const { connected } = require('process');
+ const {Server}=require('socket.io'); //Server is exist in socket io librar;
+ const { connected } = require('process');
 app.use(cors());
 const server=http.createServer(app);
 
 const io=new Server(server,{
     cors:{
-        origin:"http://localhost:3000",
+        origin:process.env.URL,
         methods:["GET","POST"]
     },
 });
 //on is event shows someone is connected
-
 io.on("connection",(socket)=>{
     console.log(`user connected ${socket.id}`);
     // on means listening and emit matlab sending
@@ -27,8 +28,6 @@ io.on("connection",(socket)=>{
     // to me ager ek ki id dege to unko sunai dega
        socket.to(data.room).emit("receive-message",data)
    })
-
-
     socket.on("disconnect",()=>{
         console.log("User Discconected",socket.id);
     })
@@ -40,12 +39,18 @@ io.on("connection",(socket)=>{
 
 
 
+// app.get('/',(req,res)=>{
+//     res.send("working");
+// })
+
+const port =process.env.PORT||3001;
+if(process.env.NODE_ENV=='production')
+{
+    app.use(express.static('client/build'));
+}
 
 
 
-
-
-
-server.listen(3001,()=>{
-    console.log("server running")
+server.listen(port,()=>{
+    console.log( `${process.env.URL}` )
 })
